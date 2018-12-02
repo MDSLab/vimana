@@ -13,7 +13,15 @@ $(document).ready(function() {
             },
             success: function(data){
                 console.log(data);
-                $('#result').append(data+'<br>');
+                $('#result').append(
+                    ' <article class="message"> \
+                    <div class="message-header"> \
+                      <p>Reply from Nodes</p> \
+                    </div> \
+                    <div class="message-body">' +
+                     data +
+                   ' </div> \
+                  </article> <br>');
                console.log("Test Model")
             }
        });
@@ -35,7 +43,15 @@ $(document).ready(function() {
             },
             success: function(data){
                 console.log(data);
-                $('#result').append(data+'<br>');
+                $('#result').append(
+                    ' <article class="message is-info"> \
+                    <div class="message-header"> \
+                      <p>Result on Test</p> \
+                    </div> \
+                    <div class="message-body">' +
+                     data +
+                   ' </div> \
+                  </article> <br>');
                console.log("Test Model")
             }
        });
@@ -60,3 +76,4 @@ $(document).ready(function() {
     
     // })
 });
+

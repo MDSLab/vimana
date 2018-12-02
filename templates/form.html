@@ -1,0 +1,39 @@
+{%extends "base.html"%} {%block content%}
+
+<section class="hero  is-bold is-unselectable ">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        <strong><i class="em em-sparkles"></i> White Element </strong>
+                    </a>
+                </div>
+        </nav>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-1 is-spaced">
+                    add a new model
+                </h1>
+                
+                <form action="" enctype="multipart/form-data" method="POST">{% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <div class="container has-text-centered">
+                        <input type='submit' class="button is-info is-large" value='Create' />
+
+                    </div>
+
+                </form>
+                
+
+            </div>
+        </div>
+
+
+
+</section>
+
+ {%endblock content%}

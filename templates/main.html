@@ -24,7 +24,7 @@
         <div class="container has-text-centered">
             <h1 class="title">
 
-               Tester
+               Trustless AI Admin
             </h1>
            
 
@@ -35,12 +35,10 @@
 </section>
 <section class="section">
         <div class="columns">
-                <div class="column is-2" s>
+                <div class="column is-2">
             <aside class="menu">
-                
-
-
-
+       
+              
                             <div class="file has-name is-boxed">
                                     <label class="file-label">
                                       <input class="file-input"  id="fileOutput" type="file" name="trainImage">
@@ -49,33 +47,80 @@
                                           <i class="fas fa-upload"></i>
                                         </span>
                                         <span class="file-label">
-                                          Choose a file
+                                          Choose a file as input
                                         </span>
                                       </span>
                                       
                                     </label>
                                   </div>
                         <!-- <input type="file" class="input" id="fileOutput" name="file" multiple> -->
-                        <a class="button is-info" id="commit">Commit</a>
+                       
                         <br>
-                        <a class="button is-success" id="test">Test</a>
+                        <a class="button is-success is-large is-fullwidth" id="commit">Commit</a>
                         <br>
                         
-                        
+                        <a class="button is-dark is-large is-fullwidth" id="test">Test</a>
+                        <br>
+                       
+                       
+                        <ul class="menu-list">
+                          {% for obj in active %}
+                          <li>
+                            <a class="is-active">Active Model: {{ obj.title }}</a>
+                            <ul>
+                              
+                              <li><a>{{ obj.description }} </a></li>
+                              
+                              <li> <a>{{ obj.accuracy }}                         </a></li>
+                              
+                            </ul>
+                          </li>
+                          {% endfor %}
+                      </ul>
                     
                       
                     </ul>
                 
                   </aside>
     </div>
-    <section class="section">
-        <div class="container">
-          <h1 class="title">Results</h1>
-          <h2 class="subtitle">
-            <div class="is-size-1" id="result"></div>
+    <div class="column is-7">
+          <h1 class="title has-text-centered">Results</h1>
+          <hr>
+
+          <h2 class="">
+            <div class="is-size-6" id="result"></div>
+          
           </h2>
-        </div>
-      </section>
+    </div>
+
+    <div class="column ">
+            <h1 class="title">Models</h1>
+            <a class="button" href="/add">Add New Model</a>
+            <hr>
+            {% for obj in model %}
+                       <div class="card" style="max-height: 12em;">
+                           <header class="card-header">
+                             <p class="card-header-title has-text-centered">
+                               {{ obj.title }}
+                             </p>
+                            
+                           </header>
+                           <div class="card-content">
+                             <div class="content">
+                               {{ obj.description }}
+                             </div>
+                           </div>
+                           <footer class="card-footer">
+                             <a href={{ obj.id }} class="card-footer-item">Make Active</a>
+                            <p class="card-footer-item">Accuracy: <strong> {{ obj.accuracy }}</strong>%</p>
+                           </footer>
+                         </div>
+                         <br>
+           
+           {% endfor %}
+       
+    </div>
+  
 
     
     </div>

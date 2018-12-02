@@ -5296,7 +5296,7 @@
   
   .card {
     background-color: white;
-    box-shadow: 0 10px 10px rgba(10, 10, 10, 0.4), 0 0 0 1px rgba(10, 10, 10, 0.05);
+    box-shadow: 0 10px 10px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.05);
     color: #4a4a4a;
     max-width: 100%;
     border-radius: 5px;
@@ -5306,7 +5306,7 @@
   }
   .card:hover {
     box-shadow: 0 10px 10px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.05);
-    -webkit-transform: scale(0.97);
+    -webkit-transform: scale(1.02);
   }
   
   .card-header {
