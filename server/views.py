@@ -67,7 +67,8 @@ def commit(request):
     input_file = request.POST.get('file')
     input_value = Image.open(input_file)
     input_value = np.array(input_value)
-    output = api_call(input_file)
+    # output = api_call(input_file)
+    output = 1
     raw = encode(input_value,output)
     raw_hex = raw.hex()
     print("Input image loaded ")
