@@ -1,4 +1,4 @@
-abci==0.3.0
+abci==0.6.0
 absl-py==0.6.1
 astor==0.7.1
 atomicwrites==1.2.1

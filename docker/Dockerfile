@@ -1,4 +1,8 @@
-FROM gw000/keras:2.1.4-py3-tf-cpu
+FROM ubuntu
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y python3-pip libssl-dev 
 
 # install dependencies from debian packages
 RUN apt-get update -qq \
@@ -19,3 +23,9 @@ RUN git clone https://github.com/gauthamzz/vimana
 
 RUN cd vimana && \
     pip3 install -r req.txt
+
+EXPOSE 8000
+
+RUN cd vimana && \
+    ls && \
+    python3 manage.py runserver
