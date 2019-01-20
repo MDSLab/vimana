@@ -30,5 +30,12 @@ EXPOSE 8000 26658
 # RUN -d python3 py-abci/examples/counter.py
 # CMD ["python3", "py-abci/examples/counter.py"]
 
+RUN apt-get install -y unzip && apt-get install -y wget && wget https://github.com/tendermint/tendermint/releases/download/v0.27.3/tendermint_0.27.3_linux_amd64.zip
+RUN unzip tendermint_0.27.3_linux_amd64.zip && rm tendermint_0.27.3_linux_amd64.zip && mv tendermint /usr/local/bin
+
+RUN tendermint init
+
+EXPOSE 26656 26657
+
 CMD ["python3", "vimana/tendermint/app.py"]
 # docker run -d -p 0.0.0.0:8003:8000 q python3 vimana/manage.py runserver 0.0.0.0:8000

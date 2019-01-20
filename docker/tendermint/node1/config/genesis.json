@@ -1,0 +1,43 @@
+{
+  "genesis_time": "2019-01-20T14:45:50.319178758Z",
+  "chain_id": "chain-e9bakZ",
+  "validators": [
+    {
+      "address": "94C23ACB1F0BF6AFC3184D1F2B4796DF27B99591",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "tggBwiQGAVxjDQrzrtNiSZVPs7eAhgAr+bO6hQ7nO8Q="
+      },
+      "power": "1",
+      "name": "node0"
+    },
+    {
+      "address": "011975E72968BFF237A658D083A1EA1980D94B10",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "XtXX+e+TuIMrMdgpft/gpPtB4sULnlklQm+o3oBwdb4="
+      },
+      "power": "1",
+      "name": "node1"
+    },
+    {
+      "address": "E121ABCCA70B89167141D4FD48F31667D5D0069C",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "RxdeWMyeB1u+KMK2J+9pTzuGGmcRWzbJhuvc8VFzMx8="
+      },
+      "power": "1",
+      "name": "node2"
+    },
+    {
+      "address": "C00BAAF52F4CCD042014071945018F55E1F83401",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "eFKn5ZmAiojZGKd+QR1SIeFHI4dO04Ntr+nwAqENHXE="
+      },
+      "power": "1",
+      "name": "node3"
+    }
+  ],
+  "app_hash": ""
+}

@@ -1,16 +1,83 @@
 version: '3'
 
 services:
+  # tm-node0:
+  #   container_name: node0
+  #   image: "localnode"
+  #   ports:
+  #     - "26656-26657:26656-26657"
+  #   environment:
+  #     - ID=0
+  #     - LOG=$${LOG:-tendermint.log}
+  #   volumes:
+  #     - ./mytestnet/node0:/tendermint
+  #   command: node --proxy_app=tcp://abci0:26658 --consensus.create_empty_blocks=false
+  #   depends_on:
+  #     - abci0
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 192.167.10.2
+
+  # tm-node1:
+  #   container_name: node1
+  #   image: "localnode"
+  #   ports:
+  #     - "26659-26660:26656-26657"
+  #   environment:
+  #     - ID=1
+  #     - LOG=$${LOG:-tendermint.log}
+  #   volumes:
+  #     - ./mytestnet/node1:/tendermint
+  #   command: node --proxy_app=tcp://abci1:26658 --consensus.create_empty_blocks=false
+  #   depends_on:
+  #     - abci1
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 192.167.10.3
+
+  # tm-node2:
+  #   container_name: node2
+  #   image: "localnode"
+  #   ports:
+  #     - "26661-26662:26656-26657"
+  #   environment:
+  #     - ID=2
+  #     - LOG=$${LOG:-tendermint.log}
+  #   volumes:
+  #     - ./mytestnet/node2:/tendermint
+  #   command: node --proxy_app=tcp://abci2:26658 --consensus.create_empty_blocks=false
+  #   depends_on:
+  #     - abci2
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 192.167.10.4
+
+  # tm-node3:
+  #   container_name: node3
+  #   image: "localnode"
+  #   ports:
+  #     - "26663-26664:26656-26657"
+  #   environment:
+  #     - ID=3
+  #     - LOG=$${LOG:-tendermint.log}
+  #   volumes:
+  #     - ./mytestnet/node3:/tendermint
+  #   command: node --proxy_app=tcp://abci3:26658 --consensus.create_empty_blocks=false
+  #   depends_on:
+  #     - abci3
+  #   networks:
+  #     localnet:
+  #       ipv4_address: 192.167.10.5
   node0:
     container_name: node0
-    image: "tendermint/localnode"
+    image: "w"
     ports:
       - "26656-26657:26656-26657"
     environment:
       - ID=0
       - LOG=$${LOG:-tendermint.log}
-    volumes:
-      - ./build:/tendermint:Z
+    # volumes:
+    #   - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci0:26658 --consensus.create_empty_blocks=false
     depends_on:
       - abci0
@@ -20,14 +87,14 @@ services:
 
   node1:
     container_name: node1
-    image: "tendermint/localnode"
+    image: "w"
     ports:
       - "26659-26660:26656-26657"
     environment:
       - ID=1
       - LOG=$${LOG:-tendermint.log}
-    volumes:
-      - ./build:/tendermint:Z
+    # volumes:
+    #   - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci1:26658 --consensus.create_empty_blocks=false
     depends_on:
       - abci1
@@ -37,14 +104,14 @@ services:
 
   node2:
     container_name: node2
-    image: "tendermint/localnode"
+    image: "w"
     environment:
       - ID=2
       - LOG=$${LOG:-tendermint.log}
     ports:
       - "26661-26662:26656-26657"
-    volumes:
-      - ./build:/tendermint:Z
+    # volumes:
+    #   - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci2:26658 --consensus.create_empty_blocks=false
     depends_on:
       - abci2
@@ -54,14 +121,14 @@ services:
 
   node3:
     container_name: node3
-    image: "tendermint/localnode"
+    image: "w"
     environment:
       - ID=3
       - LOG=$${LOG:-tendermint.log}
     ports:
       - "26663-26664:26656-26657"
-    volumes:
-      - ./build:/tendermint:Z
+    # volumes:
+    #   - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci3:26658 --consensus.create_empty_blocks=false
     depends_on:
       - abci3
@@ -75,7 +142,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    # command: python3 vimana/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.6
@@ -86,7 +153,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    # command: python3 vimana/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.7
@@ -97,7 +164,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    # command: python3 vimana/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.8
@@ -108,7 +175,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    # command: python3 vimana/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.9
