@@ -38,4 +38,7 @@ RUN tendermint init
 EXPOSE 26656 26657
 
 CMD ["python3", "vimana/tendermint/app.py"]
-# docker run -d -p 0.0.0.0:8003:8000 q python3 vimana/manage.py runserver 0.0.0.0:8000
+# docker run -d -p 0.0.0.0:26656-26657:26656-26657  w tendermint node
+# docker exec -it agitated_swartz   /bin/bash
+# cd vimana/tendermint
+# python app.py

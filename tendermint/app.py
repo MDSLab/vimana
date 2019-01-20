@@ -14,6 +14,7 @@ from PIL import Image
 import sys
 from keras import backend as K
 import pickle
+import os
 
 from abci import (
     ABCIServer,
@@ -68,7 +69,10 @@ def decode(raw,input_size=784):
 
 def get_result(input_value):
     K.clear_session()
-    model = load_model('model.h5')
+    script_dir = os.path.dirname(__file__)
+    rel_path = "model.h5"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    model = load_model(abs_file_path)
     input_value = input_value.reshape((1,)+input_value.shape+(1,))
     val = model.predict(input_value)
     print(val[0].argmax(axis=0))

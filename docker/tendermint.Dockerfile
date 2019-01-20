@@ -10,4 +10,9 @@ RUN unzip tendermint_0.27.3_linux_amd64.zip && rm tendermint_0.27.3_linux_amd64.
 
 RUN tendermint init
 
+VOLUME [ /tendermint ]
+WORKDIR /tendermint
+
+EXPOSE 26656 26657
+
 CMD ["tendermint", "node"]
