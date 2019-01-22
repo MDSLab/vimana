@@ -41,32 +41,6 @@ def decode(raw,input_size=784):
     input_value = input_value.reshape(28,28,order='F').astype(np.uint8)
     return input_value,output
 
-# def encode(input_value, output):
-#     input_value = np.array(input_value)
-#     input_value = input_value.tobytes()
-#     input_value = input_value.hex()
-#     output = hex(output)
-#     pair = '0x' + input_value + output
-#     return pair
-
-# def decode(pair):
-#     _, input_value, output = pair.split('0x')
-#     input_value = bytes.fromhex(input_value) 
-#     input_value = np.frombuffer(input_value, dtype=uint8)
-#     input_value =input_value.reshape(INPUT_SHAPE)
-#     output = int(output, 16)
-#     return input_value, output
-
-# def get_result(file_name):
-#     K.clear_session()
-#     model = load_model('my_model.h5')
-#     pic = Image.open(file_name)
-#     Pic = np.array(pic)
-#     x = Pic.reshape((1,)+Pic.shape+(1,))
-#     val = model.predict(x)
-#     print(val[0].argmax(axis=0))
-#     return val[0].argmax(axis=0)
-
 def get_result(input_value):
     K.clear_session()
     script_dir = os.path.dirname(__file__)
@@ -78,7 +52,7 @@ def get_result(input_value):
     print(val[0].argmax(axis=0))
     return val[0].argmax(axis=0)
 
-class WhiteElement(BaseApplication):
+class Vimana(BaseApplication):
 
     def info(self, req) -> ResponseInfo:
         """
@@ -95,6 +69,7 @@ class WhiteElement(BaseApplication):
         """Set initial state on first run"""
         self.input_value = np.empty([28,28],dtype=np.uint8)
         self.output = 0
+        # self.model_hash = 9b662cfdae5e209c43541fb329ec29ecff4b89404762aaf0b8c6ff1e50491b97
         self.last_block_height = 0
         return ResponseInitChain()
 
