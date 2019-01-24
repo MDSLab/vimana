@@ -31,26 +31,28 @@ from abci import (
 INPUT_SHAPE=(28,28)
 
 def encode(input_value, output):
-    return struct.pack('l%si' %input_value.size,output, *input_value.flatten('F'))
+    return struct.pack('l%sf' %input_value.size,output, *input_value.flatten('F'))
 
 def decode(raw,input_size=784):
-    decoded=struct.unpack('l%si'%input_size,raw)
+    decoded=struct.unpack('l%sf'%input_size,raw)
     output = decoded[0]
     input_value = decoded[1:]
     input_value = np.array(input_value)
-    input_value = input_value.reshape(28,28,order='F').astype(np.uint8)
+    input_value = input_value.reshape(224,224,3,order='F').astype(np.float32)
+    input_value = input_value.reshape((1,)+input_value.shape)
     return input_value,output
 
-def get_result(input_value):
+def get_result(file_name):
     K.clear_session()
     script_dir = os.path.dirname(__file__)
     rel_path = "model.h5"
     abs_file_path = os.path.join(script_dir, rel_path)
     model = load_model(abs_file_path)
-    input_value = input_value.reshape((1,)+input_value.shape+(1,))
+    
     val = model.predict(input_value)
     print(val[0].argmax(axis=0))
     return val[0].argmax(axis=0)
+
 
 class WhiteElement(BaseApplication):
 

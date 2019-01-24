@@ -1,0 +1,30 @@
+{
+  "genesis_time": "2019-01-24T15:55:35.221956807Z",
+  "chain_id": "test-chain-AxujAu",
+  "consensus_params": {
+    "block_size": {
+      "max_bytes": "22020096",
+      "max_gas": "-1"
+    },
+    "evidence": {
+      "max_age": "100000"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    }
+  },
+  "validators": [
+    {
+      "address": "2B9C66FF87A5FD4E2B86A9AD9B48A4E655913775",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "9O3vELNJAbCYWdlAH2OXCW88VufGDcpRxnGyO1IbbNY="
+      },
+      "power": "10",
+      "name": ""
+    }
+  ],
+  "app_hash": ""
+}
