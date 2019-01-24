@@ -14,7 +14,7 @@ from keras import backend as K
 def api_call(file_name):
     K.clear_session()
     model = load_model('tendermint/model.h5')
-    pic = Image.open(file_name)
+    pic = Image.open("data/mnist/"+file_name)
     Pic = np.array(pic)
     x = Pic.reshape((1,)+Pic.shape+(1,))
     val = model.predict(x)
