@@ -1,11 +1,18 @@
+import logging
+
+# import vimana
+from .core import App
+
+logger = logging.getLogger(__name__)
+
 BANNER = """               
-                            x___________x                                        
-                                 |                                             
-                            _   _|_   _                                        
-                           (i)-/   \-(i)                                       
-    _                         /\___/\                         _                
-   (G)______xxxxx____________( ( x ) )____________xxxxx______(G)         
-                              \_____/                                          
+                               x___________x                                        
+                                    |                                             
+                               _   _|_   _                                        
+                              (i)-/   \-(i)                                       
+       _                         /\___/\                         _                
+      (G)______xxxxx____________( ( x ) )____________xxxxx______(G)         
+                                 \_____/                                          
 
  ,ggg,         ,gg                                                             
 dP""Y8a       ,8P                                                              
@@ -22,9 +29,13 @@ Yb, `88       d8'
     Initalisation is complete. Vimana Server is ready and waiting.                                                                                                                                                                 
 """
 
-import logging
 
-logger = logging.getLogger(__name__)
-logger.info(BANNER)
+def start():
+    logger.info(BANNER)
+    from abci import ABCIServer
 
-print(BANNER)
+    app = ABCIServer(app=App())
+    app.run()
+
+if __name__ =='__main__':
+    start()
