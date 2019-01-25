@@ -10,22 +10,22 @@ logic to Tendermint Core
 import logging
 import sys
 
-from abci.application import BaseApplication
-from abci.types_pb2 import (
-    ResponseInitChain,
+
+from abci import (
+    ABCIServer,
+    BaseApplication,
     ResponseInfo,
-    ResponseCheckTx,
-    ResponseBeginBlock,
-    ResponseDeliverTx,
-    ResponseEndBlock,
+    ResponseInitChain,
+    ResponseCheckTx, ResponseDeliverTx,
+    ResponseQuery,
     ResponseCommit,
+    CodeTypeOk,
 )
 
-
-from vimana import Vimana
-from vimana.tendermint_utils import (decode_transaction,
+# from vimana import Vimana
+from tendermint_utils import (decode_transaction,
                                          calculate_hash)
-from vimana.lib import Block
+from lib import Block
 
 
 CodeTypeOk = 0

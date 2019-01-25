@@ -1,17 +1,20 @@
 import logging
 
-# import vimana
-from .core import App
+from core import App
+
+import os
+ 
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 logger = logging.getLogger(__name__)
 
 BANNER = """               
-                               x___________x                                        
-                                    |                                             
-                               _   _|_   _                                        
-                              (i)-/   \-(i)                                       
-       _                         /\___/\                         _                
-      (G)______xxxxx____________( ( x ) )____________xxxxx______(G)         
+                               x___________x       
+                                    |                          
+                               _   _|_   _                       
+                              (i)-/   \-(i)     
+       _                         /\___/\                         _
+      (G)______xxxxx____________( ( x ) )____________xxxxx______(G)
                                  \_____/                                          
 
  ,ggg,         ,gg                                                             
@@ -25,8 +28,11 @@ Yb, `88       d8'
        Yb,_,dP  _,88,_,dP   8I   8I   Yb,,d8,   ,d8b,,dP   8I   Yb,,d8,   ,d8b,
         "Y8P"   8P""Y88P'   8I   8I   `Y8P"Y8888P"`Y88P'   8I   `Y8P"Y8888P"`Y8
                                                                                
-    Codename: Angry Arianna    
-    Initalisation is complete. Vimana Server is ready and waiting.                                                                                                                                                                 
+    Codename: Angry Arianna                                      __   
+                                                                 \ \_____
+    Initalisation is complete. Vimana Server is ready to fly. ###[==_____>     
+                                                                 /_/      
+                                                                                                                                                                  
 """
 
 
@@ -37,5 +43,6 @@ def start():
     app = ABCIServer(app=App())
     app.run()
 
-if __name__ =='__main__':
+
+if __name__ == '__main__':
     start()
