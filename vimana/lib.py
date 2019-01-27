@@ -9,6 +9,7 @@ from collections import namedtuple
 from uuid import uuid4
 import rapidjson
 import os
+import json
 
 try:
     from hashlib import sha3_256
@@ -141,8 +142,10 @@ class Vimana(object):
     def get_model_output(self, tx):
         # the function returns the output of the Transation object in 
         # case the input is valid and model works properly
+
+        input_from_transaction =  json.loads(tx)['input']
+
         try:
-            input_from_transaction =  tx['input']
             return self.keras_model.get_model_output(input_from_transaction)
         except:
             logger.warning('Invalid input supplied to model')

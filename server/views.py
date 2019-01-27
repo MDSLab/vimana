@@ -8,12 +8,33 @@ import requests
 from PIL import Image
 import struct
 import json
+import logging
 
 from shutil import move, copyfile
 import os
 
+import base64
+import hashlib
+import json
+from binascii import hexlify
+import json
+from uuid import uuid4
+
+try:
+    from hashlib import sha3_256
+except ImportError:
+    from sha3 import sha3_256
+
+
 from .models import MLModel
 from .forms import MLModelForm
+ 
+
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logger = logging.getLogger(__name__)
+
+mode_commit = 'broadcast_tx_commit'
+mode_list = ('broadcast_tx_async','broadcast_tx_sync', mode_commit)
 
 def encode(input_value, output):
     return struct.pack('l%si' %input_value.size,output, *input_value.flatten('F'))
@@ -63,19 +84,110 @@ def test(request):
     print(result)
     return HttpResponse(result)
 
+# def commit(request):
+#     input_file = request.POST.get('file')
+#     input_value = Image.open(input_file)
+#     input_value = np.array(input_value)
+#     output = api_call(input_file)
+#     # output = 1
+#     raw = encode(input_value,output)
+#     raw_hex = raw.hex()
+#     print("Input image loaded ")
+#     # print(input_value)
+#     print("--Output generated is---")
+#     print(output)
+#     # print("------Raw Hex ------")
+#     # print(raw_hex)
+#     json_response = requests.get('http://localhost:26657/broadcast_tx_commit?tx=0x'+raw_hex)
+#     return HttpResponse(json_response)
+
+def encode_transaction(value):
+    """Encode a transaction (dict) to Base64."""
+
+    return base64.b64encode(json.dumps(value).encode('utf8')).decode('utf8')
+
+
+
+def post_transaction( transaction, mode):
+    """Submit a valid transaction to the mempool."""
+    if not mode or mode not in mode_list:
+        raise ValidationError('Mode must be one of the following {}.'
+                                .format(', '.join(mode_list)))
+
+    tx_dict = transaction
+    
+    tendermint_host = 'localhost'
+    tendermint_port = 26657
+    endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
+
+    payload = {
+        'method': mode,
+        'jsonrpc': '2.0',
+        'params': [encode_transaction(tx_dict)],
+        'id': str(uuid4())
+    }
+    # TODO: handle connection errors!
+    return requests.post(endpoint, json=payload)
+
+def write_transaction(transaction, mode):
+    # This method offers backward compatibility with the Web API.
+    """Submit a valid transaction to the mempool."""
+    response = post_transaction(transaction, mode)
+    return _process_post_response(response.json(), mode)
+
+def _process_post_response(response, mode):
+    logger.debug(response)
+
+    error = response.get('error')
+    if error:
+        status_code = 500
+        message = error.get('message', 'Internal Error')
+        data = error.get('data', '')
+
+        if 'Tx already exists in cache' in data:
+            status_code = 400
+
+        return (status_code, message + ' - ' + data)
+
+    result = response['result']
+    if mode == mode_commit:
+        check_tx_code = result.get('check_tx', {}).get('code', 0)
+        deliver_tx_code = result.get('deliver_tx', {}).get('code', 0)
+        error_code = check_tx_code or deliver_tx_code
+    else:
+        error_code = result.get('code', 0)
+
+    if error_code:
+        return (500, 'Transaction validation failed')
+
+    return (202, '')
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
 def commit(request):
     input_file = request.POST.get('file')
-    input_value = Image.open(input_file)
+    input_value = Image.open("data/" + input_file)
     input_value = np.array(input_value)
-    output = api_call(input_file)
-    # output = 1
-    raw = encode(input_value,output)
-    raw_hex = raw.hex()
-    print("Input image loaded ")
-    # print(input_value)
-    print("--Output generated is---")
-    print(output)
-    # print("------Raw Hex ------")
-    # print(raw_hex)
-    json_response = requests.get('http://localhost:26657/broadcast_tx_commit?tx=0x'+raw_hex)
-    return HttpResponse(json_response)
+
+    input_value = input_value.reshape((1,)+input_value.shape+(1,))
+
+    print(type(input_value))
+    print(input_value.shape)
+
+    print(api_call(input_value))
+
+    transaction = {
+        'input': input_value
+    }
+
+    # Since numpy is not json serializable
+    # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
+    transaction = json.dumps(transaction, cls=NumpyEncoder)
+
+    result = write_transaction(transaction, 'broadcast_tx_commit')
+
+    return HttpResponse(result)

@@ -11,7 +11,6 @@ import logging
 import sys
 import os
 
-
 from abci import (
     ABCIServer,
     BaseApplication,
@@ -52,7 +51,7 @@ class App(BaseApplication):
 
     def __init__(self, vimana=None):
         self.vimana = vimana or Vimana()
-        self.block_txn_ids = []
+        # self.block_txn_ids = []
         self.block_txn_hash = ''
         self.block_transactions = []
         self.output_of_transations = []
@@ -98,7 +97,7 @@ class App(BaseApplication):
                      req_begin_block.header.height,
                      req_begin_block.header.num_txs)
 
-        self.block_txn_ids = []
+        # self.block_txn_ids = []
         self.block_transactions = []
         self.output_of_transations = []
         return ResponseBeginBlock()
@@ -119,7 +118,7 @@ class App(BaseApplication):
             return ResponseDeliverTx(code=CodeTypeError)
         else:
             logger.debug('storing tx')
-            self.block_txn_ids.append(transaction.id)
+            # self.block_txn_ids.append(transaction.id)
             self.block_transactions.append(transaction)
 
             logger.debug('getting tx output')
@@ -135,17 +134,16 @@ class App(BaseApplication):
             height (int): new height of the chain.
         """
 
-        height = request_end_block.height 
-        self.new_height = height
+        # height = request_end_block.height 
+        # self.new_height = height
 
-        block_txn_hash = calculate_hash(self.block_txn_ids)
+        # block_txn_hash = calculate_hash(self.block_txn_ids)
         block = self.vimana.get_latest_block()
 
-        if self.block_txn_ids:
-            self.block_txn_hash = calculate_hash([block['app_hash'], block_txn_hash])
-        else:
-            self.block_txn_hash = block['app_hash']
-
+        # if self.block_txn_ids:
+        #     self.block_txn_hash = calculate_hash([block['app_hash'], block_txn_hash])
+        # else:
+        self.block_txn_hash = block['app_hash']
         return ResponseEndBlock()
 
     def commit(self):

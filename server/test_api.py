@@ -13,10 +13,11 @@ from keras import backend as K
 
 def api_call(file_name):
     K.clear_session()
-    model = load_model('tendermint/model.h5')
-    pic = Image.open(file_name)
-    Pic = np.array(pic)
-    x = Pic.reshape((1,)+Pic.shape+(1,))
+    model = load_model('vimana/model.h5')
+    # pic = Image.open(file_name)
+    # Pic = np.array(pic)
+    # x = Pic.reshape((1,)+Pic.shape+(1,))
+    x = file_name
     val = model.predict(x)
     print(val[0].argmax(axis=0))
     return val[0].argmax(axis=0)
