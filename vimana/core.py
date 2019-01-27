@@ -9,6 +9,7 @@ logic to Tendermint Core
 
 import logging
 import sys
+import os
 
 
 from abci import (
@@ -18,11 +19,13 @@ from abci import (
     ResponseInitChain,
     ResponseCheckTx, ResponseDeliverTx,
     ResponseQuery,
+    ResponseBeginBlock,
+    ResponseEndBlock,
     ResponseCommit,
     CodeTypeOk,
 )
 
-# from vimana import Vimana
+from lib import Vimana
 from tendermint_utils import (decode_transaction,
                                          calculate_hash)
 from lib import Block
@@ -30,6 +33,7 @@ from lib import Block
 
 CodeTypeOk = 0
 CodeTypeError = 1
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "NOTSET"))
 logger = logging.getLogger(__name__)
 
 
@@ -51,6 +55,7 @@ class App(BaseApplication):
         self.block_txn_ids = []
         self.block_txn_hash = ''
         self.block_transactions = []
+        self.output_of_transations = []
         self.validators = None
         self.new_height = None
 
@@ -59,13 +64,10 @@ class App(BaseApplication):
 
         app_hash = ''
         height = 0
-        abci_chain_height = 0
 
         block = Block(app_hash=app_hash, height=height, transactions=[])
 
         self.vimana.store_block(block._asdict())
-        self.chain = {'height': abci_chain_height, 'is_synced': True,
-                      'chain_id': genesis.chain_id}
         return ResponseInitChain()
 
     def check_tx(self, raw_transaction):
@@ -93,11 +95,12 @@ class App(BaseApplication):
         """
 
         logger.debug('BEGIN BLOCK, height:%s, num_txs:%s',
-                     req_begin_block.header.height + chain_shift,
+                     req_begin_block.header.height,
                      req_begin_block.header.num_txs)
 
         self.block_txn_ids = []
         self.block_transactions = []
+        self.output_of_transations = []
         return ResponseBeginBlock()
 
     def deliver_tx(self, raw_transaction):
@@ -106,8 +109,6 @@ class App(BaseApplication):
         Args:
             raw_tx: a raw string (in bytes) transaction.
         """
-
-        self.abort_if_abci_chain_is_not_synced()
 
         logger.debug('deliver_tx: %s', raw_transaction)
         transaction = self.vimana.is_valid_transaction(
@@ -120,6 +121,10 @@ class App(BaseApplication):
             logger.debug('storing tx')
             self.block_txn_ids.append(transaction.id)
             self.block_transactions.append(transaction)
+
+            logger.debug('getting tx output')
+            self.output_of_transations.append(self.vimana.get_model_output(transaction))
+            
             return ResponseDeliverTx(code=CodeTypeOk)
 
     def end_block(self, request_end_block):

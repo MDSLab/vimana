@@ -1,11 +1,9 @@
 import logging
+import os
 
 from core import App
-
-import os
  
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
-
 logger = logging.getLogger(__name__)
 
 BANNER = """               
@@ -28,16 +26,16 @@ Yb, `88       d8'
        Yb,_,dP  _,88,_,dP   8I   8I   Yb,,d8,   ,d8b,,dP   8I   Yb,,d8,   ,d8b,
         "Y8P"   8P""Y88P'   8I   8I   `Y8P"Y8888P"`Y88P'   8I   `Y8P"Y8888P"`Y8
                                                                                
-    Codename: Angry Arianna                                      __   
+    Codename: Angry Arianna V 0.1                                __   
                                                                  \ \_____
     Initalisation is complete. Vimana Server is ready to fly. ###[==_____>     
-                                                                 /_/      
-                                                                                                                                                                  
+                                                                 /_/                                                                                                                                                                    
 """
 
 
 def start():
     logger.info(BANNER)
+
     from abci import ABCIServer
 
     app = ABCIServer(app=App())
