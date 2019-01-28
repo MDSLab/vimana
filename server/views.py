@@ -178,7 +178,7 @@ def commit(request):
     print(type(input_value))
     print(input_value.shape)
 
-    print(api_call(input_value))
+    # print(api_call(input_value))
 
     transaction = {
         'input': input_value

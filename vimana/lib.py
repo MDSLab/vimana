@@ -147,8 +147,8 @@ class Vimana(object):
 
         try:
             return self.keras_model.get_model_output(input_from_transaction)
-        except:
-            logger.warning('Invalid input supplied to model')
+        except Exception as e:
+            logger.warning('Error while using Keras model (%s): %s', type(e).__name__, e)
             return -1 # Negative number denotes invalid output
 
 

@@ -6,10 +6,11 @@ import numpy as np
 import keras
 from keras.models import load_model
 from keras import backend as K
+import tensorflow as tf
 
 from PIL import Image
  
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "DEBUG"))
 logger = logging.getLogger(__name__)
 
 # Define the location where the model file is
@@ -35,51 +36,16 @@ class KerasModel(object):
         abs_file_path = os.path.join(script_dir, rel_path)
         try:
             self.model = load_model(abs_file_path)
+            
+            # https://github.com/keras-team/keras/issues/2397
+            self.model._make_predict_function()
+            self.graph = tf.get_default_graph()
+
             logger.info('Model loaded succesfully (%s)', self.model.summary())
         except Exception as e:
             logger.warning('Invalid model (%s): %s', type(e).__name__, e)
 
-    # def test_model(self):
-        # logger.info("Testing model")
-        # script_dir = os.path.dirname(__file__)
-        # rel_path = "8.png"
-        # abs_file_path = os.path.join(script_dir, rel_path)
-        # logger.info("wait why doesnt this work")
-        # pic = Image.open(abs_file_path)
-        # Pic = np.array(pic)
-        # logger.info("wtf")
-        # x = Pic.reshape((1,)+Pic.shape+(1,))
-        # logger.info("loaded images")
-    #     output = self.model.predict(input_value)
-    #     logger.info("output recived")
-    #     logger.info(output)
-    #     return True
-
-    def get_model_output(self, input_value):
-        """Input value is a numpy array in the form of a list and it is 
-        to be converted to numpy array in the dimensions of the image
-
-        returns output as an integer 
-        Only for classification, hence assuming outputs to be only integers
-        """
-        # clear keras session to prevent memory error
-        K.clear_session()
-
-        # load the model 
-        script_dir = os.path.dirname(__file__)
-        rel_path = MODEL_LOCATION
-        abs_file_path = os.path.join(script_dir, rel_path)
-        try:
-            model = load_model(abs_file_path)
-            logger.info('Model loaded succesfully (%s)', model.summary())
-        except Exception as e:
-            logger.warning('Invalid model (%s): %s', type(e).__name__, e)
-
-        input_value = np.asarray(input_value)
-
-        logger.info(input_value.shape)
-        logger.info(type(input_value))
-
+    def test_model(self):
         logger.info("Testing model")
         script_dir = os.path.dirname(__file__)
         rel_path = "8.png"
@@ -90,14 +56,30 @@ class KerasModel(object):
         logger.info("wtf")
         x = Pic.reshape((1,)+Pic.shape+(1,))
         logger.info("loaded images")
-
-        ouput = model.predict(x)
+        output = self.model.predict(input_value)
+        logger.info("output recived")
         logger.info(output)
+        return True
 
-        # try:
-        #     ouput = self.model.predict(input_value)
-        # except Exception as e:
-        #     logger.warning('Invalid Output (%s): %s', type(e).__name__, e)
+    def get_model_output(self, input_value):
+        """Input value is a numpy array in the form of a list and it is 
+        to be converted to numpy array in the dimensions of the image
+
+        returns output as an integer 
+        Only for classification, hence assuming outputs to be only integers
+        """
+        input_value = np.asarray(input_value)
+
+        logger.debug("Input recived by model of shape")
+        logger.debug(input_value.shape)
+
+        try:
+            with self.graph.as_default():
+                output = self.model.predict(input_value)
+        except Exception as e:
+            logger.warning('Invalid Output (%s): %s', type(e).__name__, e)
+
+        logger.debug("Predicted output : %i", output[0].argmax(axis=0))
         
         # output[0].argmax(axis=0) returns the value of output
         # as an integer
