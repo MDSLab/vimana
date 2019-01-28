@@ -40,16 +40,16 @@ class KerasModel(object):
             logger.warning('Invalid model (%s): %s', type(e).__name__, e)
 
     # def test_model(self):
-    #     logger.info("Testing model")
-    #     script_dir = os.path.dirname(__file__)
-    #     rel_path = "8.png"
-    #     abs_file_path = os.path.join(script_dir, rel_path)
-    #     logger.info("wait why doesnt this work")
-    #     pic = Image.open(abs_file_path)
-    #     Pic = np.array(pic)
-    #     logger.info("wtf")
-    #     x = Pic.reshape((1,)+Pic.shape+(1,))
-    #     logger.info("loaded images")
+        # logger.info("Testing model")
+        # script_dir = os.path.dirname(__file__)
+        # rel_path = "8.png"
+        # abs_file_path = os.path.join(script_dir, rel_path)
+        # logger.info("wait why doesnt this work")
+        # pic = Image.open(abs_file_path)
+        # Pic = np.array(pic)
+        # logger.info("wtf")
+        # x = Pic.reshape((1,)+Pic.shape+(1,))
+        # logger.info("loaded images")
     #     output = self.model.predict(input_value)
     #     logger.info("output recived")
     #     logger.info(output)
@@ -80,7 +80,18 @@ class KerasModel(object):
         logger.info(input_value.shape)
         logger.info(type(input_value))
 
-        ouput = model.predict(input_value)
+        logger.info("Testing model")
+        script_dir = os.path.dirname(__file__)
+        rel_path = "8.png"
+        abs_file_path = os.path.join(script_dir, rel_path)
+        logger.info("wait why doesnt this work")
+        pic = Image.open(abs_file_path)
+        Pic = np.array(pic)
+        logger.info("wtf")
+        x = Pic.reshape((1,)+Pic.shape+(1,))
+        logger.info("loaded images")
+
+        ouput = model.predict(x)
         logger.info(output)
 
         # try:
