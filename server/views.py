@@ -89,16 +89,11 @@ def encode_transaction(value):
 
     return base64.b64encode(json.dumps(value).encode('utf8')).decode('utf8')
 
-def query_transaction(transaction):
-    response = post_transaction(transaction, 'abci_query')
-    return _process_post_response(response.json(), 'abci_query')
-
-
 def post_transaction( transaction, mode):
     """Submit a valid transaction to the mempool."""
-    # if not mode or mode not in mode_list:
-    #     raise ValidationError('Mode must be one of the following {}.'
-    #                             .format(', '.join(mode_list)))
+    if not mode or mode not in mode_list:
+        raise ValidationError('Mode must be one of the following {}.'
+                                .format(', '.join(mode_list)))
 
     tx_dict = transaction
     
@@ -113,6 +108,7 @@ def post_transaction( transaction, mode):
         'id': str(uuid4())
     }
     # TODO: handle connection errors!
+    print(payload)
     return requests.post(endpoint, json=payload)
 
 def write_transaction(transaction, mode):
@@ -120,6 +116,32 @@ def write_transaction(transaction, mode):
     """Submit a valid transaction to the mempool."""
     response = post_transaction(transaction, mode)
     return _process_post_response(response.json(), mode)
+
+def _query_transaction( transaction):
+    """Submit a valid transaction to the mempool."""
+    # if not mode or mode not in mode_list:
+    #     raise ValidationError('Mode must be one of the following {}.'
+    #                             .format(', '.join(mode_list)))
+
+    tx_dict = transaction
+    
+    tendermint_host = 'localhost'
+    tendermint_port = 26657
+    endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
+
+    payload = {
+        "method": "abci_query",
+        "jsonrpc": "2.0",
+        "params":[None, encode_transaction(tx_dict), None, None],
+        "id": str(uuid4())
+    }
+    # TODO: handle connection errors!
+    print(payload)
+    return requests.post(endpoint, json=payload)
+
+def query_transaction(transaction):
+    response = _query_transaction(transaction)
+    return _process_post_response(response.json(), 'abci_query')
 
 def _process_post_response(response, mode):
     print(response)
@@ -194,7 +216,7 @@ def query(request):
 
     # print(api_call(input_value))
 
-    transaction = {
+    transaction ={
         'input': input_value
     }
 

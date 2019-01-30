@@ -80,5 +80,6 @@ class App(BaseApplication):
     def query(self, req):
         key = self.state.get_transaction_hash(req.data)
         value = self.state.db.get(prefix_key(key))
+        logger.info("key %s returned %s", key, value)
         return ResponseQuery(code=CodeTypeOk, value=value)
 
