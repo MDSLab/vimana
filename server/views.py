@@ -84,35 +84,21 @@ def test(request):
     print(result)
     return HttpResponse(result)
 
-# def commit(request):
-#     input_file = request.POST.get('file')
-#     input_value = Image.open(input_file)
-#     input_value = np.array(input_value)
-#     output = api_call(input_file)
-#     # output = 1
-#     raw = encode(input_value,output)
-#     raw_hex = raw.hex()
-#     print("Input image loaded ")
-#     # print(input_value)
-#     print("--Output generated is---")
-#     print(output)
-#     # print("------Raw Hex ------")
-#     # print(raw_hex)
-#     json_response = requests.get('http://localhost:26657/broadcast_tx_commit?tx=0x'+raw_hex)
-#     return HttpResponse(json_response)
-
 def encode_transaction(value):
     """Encode a transaction (dict) to Base64."""
 
     return base64.b64encode(json.dumps(value).encode('utf8')).decode('utf8')
 
+def query_transaction(transaction):
+    response = post_transaction(transaction, 'abci_query')
+    return _process_post_response(response.json(), 'abci_query')
 
 
 def post_transaction( transaction, mode):
     """Submit a valid transaction to the mempool."""
-    if not mode or mode not in mode_list:
-        raise ValidationError('Mode must be one of the following {}.'
-                                .format(', '.join(mode_list)))
+    # if not mode or mode not in mode_list:
+    #     raise ValidationError('Mode must be one of the following {}.'
+    #                             .format(', '.join(mode_list)))
 
     tx_dict = transaction
     
@@ -136,7 +122,7 @@ def write_transaction(transaction, mode):
     return _process_post_response(response.json(), mode)
 
 def _process_post_response(response, mode):
-    logger.debug(response)
+    print(response)
 
     error = response.get('error')
     if error:
@@ -159,8 +145,12 @@ def _process_post_response(response, mode):
 
     if error_code:
         return (500, 'Transaction validation failed')
+    # todo convert output to json
+    return decode_output(result['deliver_tx']['data'])
 
-    return (202, '')
+def decode_output(value):
+    value_in_base64 = base64.b64decode(value)
+    return int.from_bytes(value_in_base64, byteorder='big')
 
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -191,3 +181,28 @@ def commit(request):
     result = write_transaction(transaction, 'broadcast_tx_commit')
 
     return HttpResponse(result)
+
+def query(request):
+    input_file = request.POST.get('file')
+    input_value = Image.open("data/" + input_file)
+    input_value = np.array(input_value)
+
+    input_value = input_value.reshape((1,)+input_value.shape+(1,))
+
+    print(type(input_value))
+    print(input_value.shape)
+
+    # print(api_call(input_value))
+
+    transaction = {
+        'input': input_value
+    }
+
+    # Since numpy is not json serializable
+    # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
+    transaction = json.dumps(transaction, cls=NumpyEncoder)
+
+    result = query_transaction(transaction)
+
+    return HttpResponse(result)
+
