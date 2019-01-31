@@ -76,13 +76,7 @@ def update_active(request, id=None):
     copyfile(path, 'tendermint/model.h5')
     return HttpResponseRedirect("/")
 
-def test(request):
-    input_file  = request.POST.get('file')
-    result = api_call(input_file)
-    print(input_file)
-    print("--------RESULT-------------")
-    print(result)
-    return HttpResponse(result)
+
 
 def encode_transaction(value):
     """Encode a transaction (dict) to Base64."""
@@ -110,6 +104,11 @@ def post_transaction( transaction, mode):
     # TODO: handle connection errors!
     print(payload)
     return requests.post(endpoint, json=payload)
+
+def test_transaction(transaction):
+    # This method offers backward compatibility with the Web API.
+    """Submit a valid transaction to the mempool."""
+    return requests.post("http://localhost:5000/predict", json=transaction)
 
 def write_transaction(transaction, mode):
     # This method offers backward compatibility with the Web API.
@@ -180,6 +179,31 @@ class NumpyEncoder(json.JSONEncoder):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
+def test(request):
+    input_file = request.POST.get('file')
+    input_value = Image.open("data/" + input_file)
+    input_value = np.array(input_value)
+
+    input_value = input_value.reshape((1,)+input_value.shape+(1,))
+
+    print(type(input_value))
+    print(input_value.shape)
+
+    # print(api_call(input_value))
+
+    transaction = {
+        'input': input_value
+    }
+
+    # Since numpy is not json serializable
+    # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
+    transaction = json.dumps(transaction, cls=NumpyEncoder)
+
+    result = test_transaction(transaction)
+
+    return HttpResponse(result)
+
+
 def commit(request):
     input_file = request.POST.get('file')
     input_value = Image.open("data/" + input_file)
@@ -203,6 +227,7 @@ def commit(request):
     result = write_transaction(transaction, 'broadcast_tx_commit')
 
     return HttpResponse(result)
+
 
 def query(request):
     input_file = request.POST.get('file')
