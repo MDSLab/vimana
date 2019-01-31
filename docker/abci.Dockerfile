@@ -19,7 +19,9 @@ RUN pip3 --no-cache-dir install \
     scikit-learn \
     statsmodels 
 
-RUN git clone https://github.com/gauthamzz/vimana
+RUN git clone https://github.com/gauthamzz/vimana 
+
+RUN cd vimana && git checkout analytics_mnist
 
 RUN cd vimana && \
     pip3 install -r req.txt
