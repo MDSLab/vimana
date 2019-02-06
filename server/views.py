@@ -97,7 +97,7 @@ def post_transaction( transaction, mode):
 
     tx_dict = transaction
     
-    tendermint_host = 'localhost'
+    tendermint_host = '35.190.132.93'
     tendermint_port = 26657
     endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
 
@@ -168,8 +168,8 @@ def _process_post_response(response, mode):
     if error_code:
         return (500, 'Transaction validation failed')
     # todo convert output to json
-    return decode_output(result['deliver_tx']['data'])
-
+    return result 
+    
 def decode_output(value):
     value_in_base64 = base64.b64decode(value)
     return int.from_bytes(value_in_base64, byteorder='big')
