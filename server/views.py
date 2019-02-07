@@ -248,7 +248,7 @@ def commit(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_with_tendermint_in_gcp")
+    write_to_csv(time_taken, "mnist_with_tendermint_in_gcp_4_nodes")
 
     return HttpResponse(result)
 
