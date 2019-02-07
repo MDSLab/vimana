@@ -15,9 +15,10 @@
 Using Tendermint BFT system.
 
 
-Python 3.6.5+
+![gif](https://cdn.dribbble.com/users/1796847/screenshots/3827042/let4.gif)
+[credits of image](https://dribbble.com/shots/3827042-Flying-around)
 
-> Broken works only for earlier versions.
+Python 3.6.5+
 
 ## Install 
 
@@ -39,10 +40,13 @@ install all the requirements
 
 `pip -r req.txt` 
 
+if eth-utils breaks, just uninstall it and install again.
+
+
 3. To run the application 
 
 
-`cd tendermint`
+`cd tmserver`
 
 RUN the abci (application blockchain interface)
 
