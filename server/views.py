@@ -130,7 +130,7 @@ def post_transaction( transaction, mode):
 
     tx_dict = transaction
     
-    tendermint_host = 'localhost'
+    tendermint_host = '35.190.132.93'
     tendermint_port = 26657
     endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
 
@@ -201,7 +201,8 @@ def _process_post_response(response, mode):
     if error_code:
         return (500, 'Transaction validation failed')
     # todo convert output to json
-    return decode_output(result['deliver_tx']['data'])
+    return result
+
 
 def decode_output(value):
     value_in_base64 = base64.b64decode(value)
@@ -247,7 +248,7 @@ def commit(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_with_tendermint_4_nodes")
+    write_to_csv(time_taken, "mnist_with_tendermint_in_gcp")
 
     return HttpResponse(result)
 
