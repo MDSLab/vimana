@@ -110,7 +110,7 @@ def post_transaction( transaction, mode):
 def test_transaction(transaction):
     # This method offers backward compatibility with the Web API.
     """Submit a valid transaction to the mempool."""
-    return requests.post("http://localhost:5000/predict", json=transaction)
+    return requests.post("http://35.201.7.200:5000/predict", json=transaction)
 
 def write_transaction(transaction, mode):
     # This method offers backward compatibility with the Web API.
