@@ -168,7 +168,7 @@ def _process_post_response(response, mode):
     if error_code:
         return (500, 'Transaction validation failed')
     # todo convert output to json
-    return result 
+    return decode_output(result['deliver_tx']['data'])
     
 def decode_output(value):
     value_in_base64 = base64.b64decode(value)
