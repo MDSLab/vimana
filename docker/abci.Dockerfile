@@ -35,6 +35,9 @@ RUN cd vimana && \
 
 # RUN tendermint init
 
+RUN yes | pip3 uninstall eth-utils 
+RUN pip3 install eth-utils
+
 EXPOSE 26656 26657 8000 26658
 
 # VOLUME [ /tendermint ]
