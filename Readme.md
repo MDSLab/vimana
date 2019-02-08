@@ -25,3 +25,5 @@ View [Docs](https://vimana.netlify.com/)
 | keras         | Supported     |
 | pytorch       | coming soon   |
 | tensorflow    | coming soon   |
+
+Created by [Gautham Santhosh](https://gauthamzz.com) under MIT 

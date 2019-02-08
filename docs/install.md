@@ -82,6 +82,8 @@ Start the Vimana Server
 python3 tmserver/start.py
 ```
 
+[![asciicast](https://asciinema.org/a/DAO2t73j6WHdDmZm8r9ZbekO1.svg)](https://asciinema.org/a/DAO2t73j6WHdDmZm8r9ZbekO1)
+
 You bashould be able to send requests to rendermint now. Send curl requests to 25556
 
 You can use the [client side Application](django.md) to do this.
