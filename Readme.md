@@ -8,14 +8,14 @@
       (G)______xxxxx____________( ( x ) )____________xxxxx______(G)
                                  \_____/
 
-    Codename: Angry Arianna
+    
+    
+> Codename: Angry Arianna
 
 
 Decentralised Artifical Intelligence using Python 3.6+, Tendermint.
 
-View [Docs](https://mdslab.github.io/vimana/))
-
-![gif](https://cdn.dribbble.com/users/1796847/screenshots/3827042/let4.gif)
+View [Docs](https://vimana.netlify.com/)
 
 # Supports
 
