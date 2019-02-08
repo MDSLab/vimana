@@ -1,4 +1,4 @@
-# Detailed Install Instructions
+# Install Instructions
 
 
 ## Overview
@@ -13,31 +13,45 @@ This is a detailed start guide. The address issues not in [Quickstart](quickstar
 
 Install Tendermint using the go path and binary.
 
+Alternatively 
+
+Downlaod the binary and to move binary to `/usr/bin`, works with Tendermint `v0.28`, should be able to work with latest.
+
+To download pre-built binaries, see the [releases page](https://github.com/tendermint/tendermint/releases)
+
+
+```
+wget https://github.com/tendermint/tendermint/releases/download/v0.28.3/tendermint_0.28.3_linux_amd64.zip
+
+unzip tendermint_0.28.3_linux_amd64.zip && rm tendermint_0.28.3_linux_amd64.zip 
+
+mv tendermint /usr/local/bin
+```
 
 ### Install Vimana
 
 > Recommended to optionally create a virtualenv for Python 3.6+
 
-```sh
+```bash
 virtualenv -p python3 venv
 source venv/bin/activate
 ```
 
 Clone the repository
 
-```sh
+```bash
 git clone https://github.com/MDSLab/vimana
 ```
 
 go inside the folder 
 
-```sh
+```bash
 cd vimana
 ```
 
 Install all the requirements
 
-``` sh
+``` bash
 pip3 -r req.txt
 ```
 
@@ -46,7 +60,7 @@ pip3 -r req.txt
 
 Start tendermint with a simple in-process application
 
-``` sh
+``` bash
 tendermint init --home ".node"
 
 tendermint node --home ".node"
@@ -54,7 +68,7 @@ tendermint node --home ".node"
 
 
 
-```sh
+```bash
 tendermint node --proxy_app=tcp://localhost:26658 --consensus.create_empty_blocks=false
 ```
 
@@ -64,20 +78,10 @@ Tendermint sends a lot of blank nodes to remove this issue you can use create_em
 
 Start the Vimana Server
 
-```sh
+```bash
 python3 tmserver/start.py
 ```
 
-You should be able to send requests to rendermint now. Send curl requests to 25556
+You bashould be able to send requests to rendermint now. Send curl requests to 25556
 
-You can use the client side Django Application to do this.
-## FAQ
-
-### Error with ethereum utils 
-
-This is a quick fix for the bug
-
-```
-pip uninstall ethereum-utils eth-utils 
-pip install eth-utils
-```
+You can use the [client side Application](django.md) to do this.
