@@ -215,7 +215,7 @@ def test(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_without_tendermint")
+    write_to_csv(time_taken, "mnist_without_tendermint_gcp_84M")
 
     return HttpResponse(result)
 
