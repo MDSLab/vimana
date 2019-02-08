@@ -1,6 +1,5 @@
-# Vimana
+# <img src="img/logo.png" alt="drawing" width="35"/> Vimana 
 
-![logo](img/logo.png)
 
 > Vimana is a Sanskrit word meaning flying object, and in ancient Vedic texts and Indian epics, Vimanas are described as vehicles used by the "gods" to travel the sky, fight wars again each other, and spread wealth and knowledge among primitive ancient people.
 

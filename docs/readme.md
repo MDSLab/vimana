@@ -1,6 +1,7 @@
 # Overview
 
-![logo](../img/logo.png)
+# <img src="../img/logo.png" alt="drawing" width="55"/> VIMANA 
+
 
 ## Quickstart 
 
