@@ -33,3 +33,5 @@ id,ip for the respective id and ip address
 
 the $NODE is equal to "node0", "node1", "node2", "node3"
 
+i use fish shell, do convert to bash if you are into it. 
+
