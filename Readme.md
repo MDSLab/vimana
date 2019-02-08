@@ -1,5 +1,7 @@
 # Vimana
 
+![logo](img/logo.png)
+
 > Vimana is a Sanskrit word meaning flying object, and in ancient Vedic texts and Indian epics, Vimanas are described as vehicles used by the "gods" to travel the sky, fight wars again each other, and spread wealth and knowledge among primitive ancient people.
 
                                x___________x
@@ -16,7 +18,7 @@ Using Tendermint BFT system.
 
 
 ![gif](https://cdn.dribbble.com/users/1796847/screenshots/3827042/let4.gif)
-[credits of image](https://dribbble.com/shots/3827042-Flying-around)
+
 
 Python 3.6.5+
 
