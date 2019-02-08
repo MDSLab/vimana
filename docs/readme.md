@@ -1,6 +1,6 @@
 # Overview
 
-# <img src="https://github.com/MDSLab/vimana/blob/master/img/logo.png" alt="logo" width="100"/> VIMANA 
+# <img src="https://raw.githubusercontent.com/MDSLab/vimana/master/img/logo.png" alt="logo" width="100"/> VIMANA 
 
 
 ## Quickstart 
