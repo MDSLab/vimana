@@ -221,35 +221,6 @@ def test(request):
 
 
 def commit(request):
-    input_file = request.POST.get('file')
-    
-    time_taken = []
-    for i in range(1,101):
-        start_time = time.time()
-        input_value = Image.open("data/"+"img_"+str(i)+".jpg")
-        input_value = np.array(input_value)
-
-        input_value = input_value.reshape((1,)+input_value.shape+(1,))
-
-        transaction = {
-            'input': input_value
-        }
-
-        # Since numpy is not json serializable
-        # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
-        transaction = json.dumps(transaction, cls=NumpyEncoder)
-
-        result = write_transaction(transaction, 'broadcast_tx_commit')
-
-        end_time = time.time()
-        print(end_time-start_time)
-        time_taken.append(end_time-start_time)
-    
-    print("Average time taken")
-    print(sum(time_taken)/float(len(time_taken)))
-    
-    print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_with_tendermint")
 
     return HttpResponse(result)
 
