@@ -11,6 +11,8 @@ import json
 import logging
 import time
 import csv
+import scipy
+import scipy.stats
 
 from shutil import move, copyfile
 import os
@@ -130,7 +132,7 @@ def post_transaction( transaction, mode):
 
     tx_dict = transaction
     
-    tendermint_host = '35.190.132.93'
+    tendermint_host = '35.185.66.180'
     tendermint_port = 26657
     endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
 
@@ -237,7 +239,7 @@ def commit(request):
         # Since numpy is not json serializable
         # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
         transaction = json.dumps(transaction, cls=NumpyEncoder)
-
+        
         result = write_transaction(transaction, 'broadcast_tx_commit')
 
         end_time = time.time()
@@ -248,9 +250,16 @@ def commit(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_with_tendermint_in_gcp_4_nodes_84M")
-
+    write_to_csv(time_taken, "results/mnist_with_tendermint_in_gcp_4_nodes_84M")
+    print(mean_confidence_interval(time_taken))
     return HttpResponse(result)
+
+def mean_confidence_interval(data, confidence=0.99):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
+    return m, m-h, m+h
 
 def query(request):
     input_file = request.POST.get('file')
