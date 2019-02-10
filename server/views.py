@@ -21,6 +21,8 @@ import json
 from binascii import hexlify
 import json
 from uuid import uuid4
+import scipy
+import scipy.stats
 
 try:
     from hashlib import sha3_256
@@ -186,6 +188,13 @@ def write_to_csv(time_list, name):
         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         wr.writerow(time_list)
 
+def mean_confidence_interval(data, confidence=0.99):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), scipy.stats.sem(a)
+    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
+    return m, m-h, m+h
+
 def test(request):
         
     input_file = request.POST.get('file')
@@ -215,7 +224,8 @@ def test(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "mnist_without_tendermint_gcp_84M")
+    write_to_csv(time_taken, "results/mnist_without_tendermint_gcp_84M")
+    print(mean_confidence_interval(time_taken))
 
     return HttpResponse(result)
 
