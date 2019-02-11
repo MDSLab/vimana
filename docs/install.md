@@ -17,6 +17,10 @@ Alternatively
 
 Downlaod the binary and to move binary to `/usr/bin`, works with Tendermint `v0.28`, should be able to work with latest.
 
+```bash
+sudo apt install unzip && sudo unzip tendermint*.zip && sudo rm tendermint*.zip &&sudo  mv tendermint /usr/local/bin
+```
+
 To download pre-built binaries, see the [releases page](https://github.com/tendermint/tendermint/releases)
 
 

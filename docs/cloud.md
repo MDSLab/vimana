@@ -43,3 +43,10 @@ id,ip for the respective id and ip address
 the $NODE is equal to "node0", "node1", "node2", "node3"
 
 i use fish shell, do convert to bash if you are into it. 
+
+
+To delete blockchain and do again 
+```
+sudo tendermint unsafe_reset_all --home $NODE
+sudo tendermint node --p2p.persistent_peers "$id1@$ip1,$id2@$ip2,$id3@$ip3,$id4@$ip4" --consensus.create_empty_blocks=false --home $NODE
+```
