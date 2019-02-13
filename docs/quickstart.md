@@ -61,6 +61,6 @@ You should be able to send requests to rendermint now. Send curl requests to `25
 
 You can use the [client side Application](django.md) to do this.
 
-Made as research internship at Univerisity of Messina by [Gautham Santhosh](gauthamzz.com) under the supervision of Prof. Francesco Long
+Made as research internship at Univerisity of Messina by [Gautham Santhosh](gauthamzz.com) under the supervision of Prof. Francesco Longo
 
 

@@ -10,7 +10,7 @@ features:
   details: Fast and reliable deep learning models made using leading edge technologies.
 - title: Lighting Fast 🏃
   details: Supports thousands of transactions per second
-footer: MIT Licensed | Copyright © 2018-present Gautham Santhosh, Prof. Francesco Long and MDS Lab 
+footer: MIT Licensed | Copyright © 2018-present Gautham Santhosh, Prof. Francesco Longo and MDS Lab 
 ---
 
 
