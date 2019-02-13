@@ -250,7 +250,7 @@ def commit(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "results4/mnist_with_tendermint_in_gcp_4_nodes_84M")
+    write_to_csv(time_taken, "results4/mnist_with_tendermint_in_gcp_4_nodes_84_2M")
     print(mean_confidence_interval(time_taken))
     print(np.std(time_taken))
     return HttpResponse(result)
