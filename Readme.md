@@ -26,4 +26,4 @@ View [Docs](https://vimana.netlify.com/)
 | pytorch       | coming soon   |
 | tensorflow    | coming soon   |
 
-Created by [Gautham Santhosh](https://gauthamzz.com) under MIT 
+Made during research internship at Univerisity of Messina by [Gautham Santhosh](gauthamzz.com) under the supervision of Prof. Francesco Longo
