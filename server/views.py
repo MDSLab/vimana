@@ -224,7 +224,7 @@ def test(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "results5/mnist_without_tendermint_gcp_1M")
+    write_to_csv(time_taken, "results5/mnist_without_tendermint_gcp_84M")
     print(mean_confidence_interval(time_taken))
 
     return HttpResponse(result)
