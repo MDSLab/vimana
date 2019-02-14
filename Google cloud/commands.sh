@@ -27,8 +27,8 @@ ip2=$IP3:26656
 ip3=$IP3:26656
 ip4=$IP4:26656
 
-alias tmrun='
-sudo tendermint unsafe_reset_all --home node
+alias tm='
+sudo tendermint unsafe_reset_all --home $NODE
 sudo tendermint node --p2p.persistent_peers "$id1@$ip1,$id2@$ip2,$id3@$ip3,$id4@$ip4" --consensus.create_empty_blocks=false --home $NODE
 '
 
