@@ -112,7 +112,7 @@ def post_transaction( transaction, mode):
 def test_transaction(transaction):
     # This method offers backward compatibility with the Web API.
     """Submit a valid transaction to the mempool."""
-    return requests.post("http://35.197.161.42:5000/predict", json=transaction)
+    return requests.post("http://35.201.7.200:5000/predict", json=transaction)
 
 def write_transaction(transaction, mode):
     # This method offers backward compatibility with the Web API.
@@ -224,7 +224,7 @@ def test(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "results5/mnist_without_tendermint_gcp_84M")
+    write_to_csv(time_taken, "results6/mnist_without_tendermint_gcp_84M")
     print(mean_confidence_interval(time_taken))
 
     return HttpResponse(result)
