@@ -132,7 +132,7 @@ def post_transaction( transaction, mode):
 
     tx_dict = transaction
     
-    tendermint_host = '35.246.37.44'
+    tendermint_host = '35.246.17.126'
     tendermint_port = 26657
     endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
 
@@ -250,7 +250,7 @@ def commit(request):
     print(sum(time_taken)/float(len(time_taken)))
     
     print("Writing to CSV")
-    write_to_csv(time_taken, "results5/mnist_with_tendermint_in_gcp_4_nodes_84M")
+    write_to_csv(time_taken, "results6/mnist_with_tendermint_in_gcp_4_nodes_64M")
     print(mean_confidence_interval(time_taken))
     print(np.std(time_taken))
     return HttpResponse(result)
