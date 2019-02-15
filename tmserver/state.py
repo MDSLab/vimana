@@ -76,7 +76,7 @@ class State(object):
             return None 
 
     def get_transaction_hash(self, tx):
-        logger.debug(tx)
+        # logger.debug(tx)
         input_from_transaction =  json.loads(tx)['input']
         input_from_transaction_as_np = np.asarray(input_from_transaction)
 

@@ -79,7 +79,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    command: python3 tmserver/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.6
@@ -90,7 +90,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    command: python3 tmserver/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.7
@@ -101,7 +101,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    command: python3 tmserver/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.8
@@ -112,7 +112,7 @@ services:
     build:
       context: .
       dockerfile: abci.Dockerfile
-    command: python3 vimana/tendermint/app.py
+    command: python3 tmserver/tendermint/app.py
     networks:
       localnet:
         ipv4_address: 192.167.10.9
@@ -125,7 +125,6 @@ networks:
       config:
       -
         subnet: 192.167.10.0/16
-
 
 
 
