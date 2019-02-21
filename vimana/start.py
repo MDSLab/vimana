@@ -26,7 +26,7 @@ Yb, `88       d8'
        Yb,_,dP  _,88,_,dP   8I   8I   Yb,,d8,   ,d8b,,dP   8I   Yb,,d8,   ,d8b,
         "Y8P"   8P""Y88P'   8I   8I   `Y8P"Y8888P"`Y88P'   8I   `Y8P"Y8888P"`Y8
                                                                                
-    Codename: Angry Arianna V 0.1                                __   
+    Codename: Boastful Beatrice V 0.2                                __   
                                                                  \ \_____
     Initalisation is complete. Vimana Server is ready to fly. ###[==_____>     
                                                                  /_/                                                                                                                                                                    

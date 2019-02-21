@@ -9,12 +9,19 @@ except ImportError:
     from sha3 import sha3_256
 
 KV_PAIR_PREFIX_KEY = b'kvPairKey'
+MODEL_PREFIX_KEY = b'modelPairKey'
 
 def prefix_key(key):
     """Takes key as a string and returns a byte string
     """
     key = str.encode(key)
     return KV_PAIR_PREFIX_KEY + key
+
+def prefix_model(key):
+    """Takes key as a string and returns a byte string
+    """
+    key = str.encode(key)
+    return MODEL_PREFIX_KEY + key
 
 def encode_transaction(value):
     """Encode a transaction (dict) to Base64."""
@@ -44,3 +51,10 @@ def calculate_hash(key_list):
     for key in key_list:
         full_hash.update(key)
     return full_hash.hexdigest()
+
+def get_transaction_method(tx):
+    """ takes transacation as a json
+    returns the type of transaction as a string
+    """
+    method_from_transaction = json.loads(tx)['method']
+    return str(method_from_transaction)

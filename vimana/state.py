@@ -22,6 +22,11 @@ logger = logging.getLogger(__name__)
 STATE_KEY = b'stateKey'
 BLANK_ROOT_HASH = b''
 
+method_query = 'query'
+method_upload = 'model_upload'
+method_activate = 'model_activate'
+method_list = ( method_upload , method_activate, method_query)
+
 class StateMetaData(rlp.Serializable):
     fields = [
         ('size', big_endian_int),
@@ -45,7 +50,7 @@ class State(object):
         self.height = height
         self.apphash = apphash
 
-        # todo pass the keras model also as init parameter
+        # TODO pass the keras model also as init parameter
         self.keras_model = KerasModel()
 
     @classmethod
@@ -75,11 +80,19 @@ class State(object):
             logger.warning('Error while using Keras model (%s): %s', type(e).__name__, e)
             return None 
 
-    def get_transaction_hash(self, tx):
-        # logger.debug(tx)
-        input_from_transaction =  json.loads(tx)['input']
-        input_from_transaction_as_np = np.asarray(input_from_transaction)
+    def get_transaction_hash(self, tx, mode):
+        """function takes raw hex tx as input
+        returns the hash of the transactiaon of the input field
+        """
+        if(mode = method_query):
+            input_from_transaction =  json.loads(tx)['input']
+            input_from_transaction_as_np = np.asarray(input_from_transaction)
 
-        hash_of_transaction = calculate_hash(input_from_transaction_as_np)
-        logger.debug("Transaction hash is %s", hash_of_transaction)
-        return hash_of_transaction
+            hash_of_transaction = calculate_hash(input_from_transaction_as_np)
+            return hash_of_transaction
+        
+        elif(mode = method_activate):
+            model_hash_from_transaction = json.loads(tx)['model']
+            model_url_from_transaction = json.loads(tx)['url']
+
+            return model_hash_from_transaction, model_url_from_transaction

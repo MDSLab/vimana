@@ -222,66 +222,40 @@ def write_to_csv(time_list, name):
 
 def commit(request):
     input_file = request.POST.get('file')
-    
-    time_taken = []
-    for i in range(1,101):
-        start_time = time.time()
-        input_value = Image.open("data/"+"img_"+str(i)+".jpg")
-        input_value = np.array(input_value)
-
-        input_value = input_value.reshape((1,)+input_value.shape+(1,))
-
-        transaction = {
-            'input': input_value
-        }
-
-        # Since numpy is not json serializable
-        # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
-        transaction = json.dumps(transaction, cls=NumpyEncoder)
-        
-        result = write_transaction(transaction, 'broadcast_tx_commit')
-
-        end_time = time.time()
-        print(end_time-start_time)
-        time_taken.append(end_time-start_time)
-    
-    print("Average time taken")
-    print(sum(time_taken)/float(len(time_taken)))
-    
-    print("Writing to CSV")
-    write_to_csv(time_taken, "results6/mnist_with_tendermint_in_gcp_4_nodes_84M")
-    print(mean_confidence_interval(time_taken))
-    print(np.std(time_taken))
-    return HttpResponse(result)
-
-def mean_confidence_interval(data, confidence=0.99):
-    a = 1.0 * np.array(data)
-    n = len(a)
-    m, se = np.mean(a), scipy.stats.sem(a)
-    h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-    return m, m-h, m+h
-
-def query(request):
-    input_file = request.POST.get('file')
     input_value = Image.open("data/" + input_file)
     input_value = np.array(input_value)
 
     input_value = input_value.reshape((1,)+input_value.shape+(1,))
 
-    print(type(input_value))
-    print(input_value.shape)
-
-    # print(api_call(input_value))
-
-    transaction ={
+    transaction = {
         'input': input_value
     }
 
     # Since numpy is not json serializable
     # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
     transaction = json.dumps(transaction, cls=NumpyEncoder)
-
-    result = query_transaction(transaction)
+    
+    result = write_transaction(transaction, 'broadcast_tx_sync')
 
     return HttpResponse(result)
+
+def query(request):
+    pass
+    # input_file = request.POST.get('file')
+    # input_value = Image.open("data/" + input_file)
+    # input_value = np.array(input_value)
+
+    # input_value = input_value.reshape((1,)+input_value.shape+(1,))
+
+    # transaction ={
+    #     'input': input_value
+    # }
+
+    # # Since numpy is not json serializable
+    # # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
+    # transaction = json.dumps(transaction, cls=NumpyEncoder)
+
+    # result = query_transaction(transaction)
+
+    # return HttpResponse(result)
 

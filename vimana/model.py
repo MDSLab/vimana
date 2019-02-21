@@ -10,7 +10,7 @@ import tensorflow as tf
 
 from PIL import Image
  
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "DEBUG"))
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 # Define the location where the model file is
