@@ -21,7 +21,19 @@ from abci import (
 )
 
 from state import State
-from utils import prefix_key, decode_transaction, encode_output
+from umm import get_model
+from utils import (
+    prefix_key, 
+    decode_transaction, 
+    encode_output,
+    prefix_model,
+    get_transaction_method 
+)
+
+method_query = 'query'
+method_upload = 'model_upload'
+method_activate = 'model_activate'
+method_list = ( method_upload , method_activate, method_query)
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "NOTSET"))
 logger = logging.getLogger(__name__)
@@ -48,22 +60,55 @@ class App(BaseApplication):
 
         Args:
             raw_tx: a raw string (in bytes) transaction.
+        Returns: output to be send to the node in string after encoding.
         """
 
         transaction = decode_transaction(tx)
-        # calculate hash of the input.
-        key = self.state.get_transaction_hash(transaction)
 
-        # get model output
-        value = self.state.get_model_output(transaction)
+        method = get_transaction_method(transaction)
 
-        logger.info("Transaction recived %s = %s", key, value)
+        if not method or method not in method_list:
+            raise ValidationError('Mode must be one of the following {}.'
+                                .format(', '.join(method_list)))
+        
+        if(method == method_query):
+            # calculate hash of the input.
+            key = self.state.get_transaction_hash(transaction, method_query)
 
-        self.state.db.set(prefix_key(key), value)
-        self.state.size += 1
+            # get model output
+            value = self.state.get_model_output(transaction)
+
+            logger.info("Transaction recived %s = %s", key, value)
+
+            self.state.db.set(prefix_key(key), value)
+            self.state.size += 1
+
+            response = value
+        
+        elif(method == method_upload):
+            # get the hash key of the model from the tx 
+            key, url_of_model = self.state.get_transaction_hash(transaction, method_upload)
+
+            # TODO check if model exists already 
+
+            # get the relative location of the model inside the Model folder
+            location = umm.get_model(key, url_of_model)
+
+            logger.debug("Transaction recived model of %s hash 🛳", key)
+            
+            self.state.db.set(prefix_model(key), location)
+            self.state.size += 1
+
+            response = "Model of hash " + str(key) + "is uploaded"
+
+
+        # if transaction type is model_activate 
 
         logger.info("Wow! Transaction delivered succesfully 😍")
-        return ResponseDeliverTx(code=CodeTypeOk, data=encode_output(value))
+
+        response_encoded = encode_output(response)
+
+        return ResponseDeliverTx(code=CodeTypeOk, data=response_encoded)
 
     def check_tx(self, tx):
         return ResponseCheckTx(code=CodeTypeOk)
