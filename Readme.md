@@ -10,7 +10,7 @@
 
     
     
-> Codename: Angry Arianna
+> Codename: Boastful Beatrice V0.2   
 
 
 Decentralised Artifical Intelligence using Python 3.6+, Tendermint.

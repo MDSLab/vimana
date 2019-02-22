@@ -32,6 +32,10 @@ def encode_output(value):
     """Takes value and converts to an integer byte string"""
     return bytes([int(value)])
 
+def encode_output_str(value):
+    """Takes value and converts to an string byte string"""
+    return bytes(value, 'utf-8')
+
 def decode_transaction(raw):
     """Decode a transaction from bytes to a dict."""
 

@@ -25,7 +25,8 @@ BLANK_ROOT_HASH = b''
 method_query = 'query'
 method_upload = 'model_upload'
 method_activate = 'model_activate'
-method_list = ( method_upload , method_activate, method_query)
+method_list = (method_upload, method_activate, method_query)
+
 
 class StateMetaData(rlp.Serializable):
     fields = [
@@ -67,32 +68,39 @@ class State(object):
         serial = rlp.encode(meta, sedes=StateMetaData)
         self.db.set(STATE_KEY, serial)
         return self.apphash
-    
+
     def get_model_output(self, tx):
         """function takes transaction as the input
         returns the output of the model
         """
-        input_from_transaction =  json.loads(tx)['input']
+        input_from_transaction = json.loads(tx)['input']
 
         try:
             return self.keras_model.get_model_output(input_from_transaction)
         except Exception as e:
-            logger.warning('Error while using Keras model (%s): %s', type(e).__name__, e)
-            return None 
+            logger.warning(
+                'Error while using Keras model (%s): %s', type(e).__name__, e)
+            return None
 
     def get_transaction_hash(self, tx, mode):
         """function takes raw hex tx as input
         returns the hash of the transactiaon of the input field
         """
-        if(mode = method_query):
-            input_from_transaction =  json.loads(tx)['input']
+        logger.debug(tx)
+        logger.debug(mode)
+        if(mode == method_query):
+            input_from_transaction = json.loads(tx)['input']
             input_from_transaction_as_np = np.asarray(input_from_transaction)
 
             hash_of_transaction = calculate_hash(input_from_transaction_as_np)
             return hash_of_transaction
-        
-        elif(mode = method_activate):
+
+        elif(mode == method_upload):
+            model_name_from_transaction = json.loads(tx)['name']
             model_hash_from_transaction = json.loads(tx)['model']
             model_url_from_transaction = json.loads(tx)['url']
 
-            return model_hash_from_transaction, model_url_from_transaction
+            return model_name_from_transaction, model_hash_from_transaction, model_url_from_transaction
+        
+        else:
+            raise ValueError
