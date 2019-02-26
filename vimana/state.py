@@ -74,9 +74,10 @@ class State(object):
         returns the output of the model
         """
         input_from_transaction = json.loads(tx)['input']
+        model_from_transcation = json.loads(tx)['model']
 
         try:
-            return self.keras_model.get_model_output(input_from_transaction)
+            return self.keras_model.get_model_output(input_from_transaction, model_from_transcation)
         except Exception as e:
             logger.warning(
                 'Error while using Keras model (%s): %s', type(e).__name__, e)

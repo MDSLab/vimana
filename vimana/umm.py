@@ -49,7 +49,7 @@ def download_model(name, url):
                     full_hash.update(chunk)
                     # f.flush()
 
-    unique_filename = MODEL_LOCATION + name + "-" + full_hash.hexdigest()
+    unique_filename = MODEL_LOCATION + name + ".h5"
     os.rename(local_filename, unique_filename)
 
     return full_hash.hexdigest(), unique_filename
@@ -72,6 +72,8 @@ def get_model(name, key, url):
         # this method downloads the model and saves in the
         # temp model folder as well.
         key_from_tx, location = download_model(name, url)
+
+        # TODO check if model already exists
 
         if(key == key_from_tx):
             # this is done so that the model is not manipulated

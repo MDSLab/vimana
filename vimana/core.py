@@ -64,15 +64,16 @@ class App(BaseApplication):
         Returns: output to be send to the node in string after encoding.
         """
         transaction = decode_transaction(tx)
-        logger.info(transaction)
+        logger.debug(transaction)
 
         method = get_transaction_method(transaction)
 
         if not method or method not in method_list:
-            raise ValidationError('Mode must be one of the following {}.'
-                                  .format(', '.join(method_list)))
-        
-        response_encoded = 0
+            raise ValueError('Mode must be one of the following {}.'
+                             .format(', '.join(method_list)))
+
+        # UPDATE DOCS: -1 is an indication of no response.
+        response_encoded = -1
 
         if(method == method_query):
             # calculate hash of the input.
@@ -81,7 +82,7 @@ class App(BaseApplication):
             # get model output
             value = self.state.get_model_output(transaction)
 
-            logger.info("Transaction recived %s = %s", key, value)
+            logger.info("✅ Transaction recived %s = %s", key, value)
 
             self.state.db.set(prefix_key(key), value)
             self.state.size += 1
@@ -99,7 +100,7 @@ class App(BaseApplication):
 
             # no need to check if model exists already, tendermint does by default
 
-            # get the relative location of the model inside the Model folder
+            # get the relative location of the model inside the Model folder, this part downloads the model.
             location = get_model(model_name, key, url_of_model)
 
             logger.debug("Transaction recived model of %s hash 🛳", key)
@@ -109,8 +110,8 @@ class App(BaseApplication):
 
             response_encoded = encode_output_str(location)
             logger.info(response_encoded)
-        
-        logger.info("Wow! Transaction delivered succesfully 😍")
+
+        logger.info("😍 Wow! Transaction delivered succesfully ")
 
         return ResponseDeliverTx(code=CodeTypeOk, data=response_encoded)
 
@@ -123,10 +124,11 @@ class App(BaseApplication):
         self.state.app_hash = app_hash
         self.state.height += 1
         self.state.save()
-        logger.info("Yaasss! Transaction commit succesfully 🦄")
+        logger.info("🦄 Yaasss! Transaction commit succesfully ")
         return ResponseCommit(data=app_hash)
 
     def query(self, req):
+        # TODO is not fully implemented!
         key = self.state.get_transaction_hash(req.data)
         value = self.state.db.get(prefix_key(key))
         logger.info("key %s returned %s", key, value)

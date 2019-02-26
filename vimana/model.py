@@ -9,12 +9,12 @@ from keras import backend as K
 import tensorflow as tf
 
 from PIL import Image
- 
+
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 # Define the location where the model file is
-MODEL_LOCATION = "model.h5"
+DEFAULT_MODEL_LOCATION = "model.h5"
 
 
 class KerasModel(object):
@@ -24,19 +24,26 @@ class KerasModel(object):
         using keras library for deep learning. 
 
         This connects with vimana, keras model is loaded from the 
-        MODEL_LOCATION
+        DEFAULT_MODEL_LOCATION
         """
 
         # clear keras session to prevent memory error
         K.clear_session()
 
-        # load the model 
+        # load the model
+        self.use_model(DEFAULT_MODEL_LOCATION)
+
+    def use_model(self, model):
+        """
+        uses the model in the model location
+            :param model: location or name of the model, both are same.
+        """
         script_dir = os.path.dirname(__file__)
-        rel_path = MODEL_LOCATION
+        rel_path = "models/" + model
         abs_file_path = os.path.join(script_dir, rel_path)
         try:
+            self.current_model = model
             self.model = load_model(abs_file_path)
-            
             # https://github.com/keras-team/keras/issues/2397
             self.model._make_predict_function()
             self.graph = tf.get_default_graph()
@@ -45,7 +52,7 @@ class KerasModel(object):
         except Exception as e:
             logger.warning('Invalid model (%s): %s', type(e).__name__, e)
 
-    def get_model_output(self, input_value):
+    def get_model_output(self, input_value, model):
         """Input value is a numpy array in the form of a list and it is 
         to be converted to numpy array in the dimensions of the image
 
@@ -57,6 +64,10 @@ class KerasModel(object):
         logger.debug("Input recived by model of shape")
         logger.debug(input_value.shape)
 
+        if model != self.current_model:
+            # update the model if its not the current one in use
+            self.use_model(model)
+
         try:
             with self.graph.as_default():
                 output = self.model.predict(input_value)
@@ -64,7 +75,7 @@ class KerasModel(object):
             logger.warning('Invalid Output (%s): %s', type(e).__name__, e)
 
         logger.debug("Predicted output : %i", output[0].argmax(axis=0))
-        
+
         # output[0].argmax(axis=0) returns the value of output
         # as an integer
         return output[0].argmax(axis=0)

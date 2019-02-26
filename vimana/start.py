@@ -2,7 +2,9 @@ import logging
 import os
 
 from core import App
- 
+import argparse
+import subprocess
+
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
@@ -26,12 +28,11 @@ Yb, `88       d8'
        Yb,_,dP  _,88,_,dP   8I   8I   Yb,,d8,   ,d8b,,dP   8I   Yb,,d8,   ,d8b,
         "Y8P"   8P""Y88P'   8I   8I   `Y8P"Y8888P"`Y88P'   8I   `Y8P"Y8888P"`Y8
                                                                                
-    Codename: Boastful Beatrice V 0.2                                __   
+    Codename: Boastful Beatrice V 0.2                            __   
                                                                  \ \_____
     Initalisation is complete. Vimana Server is ready to fly. ###[==_____>     
                                                                  /_/                                                                                                                                                                    
 """
-
 
 def start():
     logger.info(BANNER)
@@ -43,4 +44,23 @@ def start():
 
 
 if __name__ == '__main__':
-    start()
+    parser = argparse.ArgumentParser(description='Vimana help.')
+    parser.add_argument('--tm', "--tendermint_test", action="store_true",
+                        help="create a tendermint node at node postion and starts it siliently")
+
+    args = parser.parse_args()
+
+    if args.tm is False:
+        start()
+
+    else:
+        logger.info("Remove old nodes and starting new")
+        subprocess.run("rm -rf node", shell= True, check= True)
+
+        logger.info("init and run tendermint node")
+        subprocess.run("tendermint init --home node", shell= True, check= True)
+        subprocess.Popen("tendermint node --home node --consensus.create_empty_blocks=false", shell= True)
+        
+        start()
+
+
