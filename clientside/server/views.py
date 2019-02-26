@@ -220,9 +220,15 @@ def commit(request):
 
     input_value = input_value.reshape((1,)+input_value.shape+(1,))
 
+    model = request.POST.get('model')
+    print(model)
+    if not model:
+        model = "current"
+
+
     transaction = {
         'method': 'query',
-        'model': 'mnist.h5',
+        'model': model,
         'input': input_value
     }
 

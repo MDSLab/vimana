@@ -1,9 +1,12 @@
 import sys
 import os
+stderr = sys.stderr
+sys.stderr = open(os.devnull, 'w')
 import logging
 
 import numpy as np
 import keras
+sys.stderr = stderr
 from keras.models import load_model
 from keras import backend as K
 import tensorflow as tf

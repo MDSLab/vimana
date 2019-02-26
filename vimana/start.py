@@ -34,6 +34,7 @@ Yb, `88       d8'
                                                                  /_/                                                                                                                                                                    
 """
 
+
 def start():
     logger.info(BANNER)
 
@@ -44,9 +45,12 @@ def start():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Vimana help.')
+    parser = argparse.ArgumentParser(
+        description='Vimana gives your machine learning models wings.')
     parser.add_argument('--tm', "--tendermint_test", action="store_true",
-                        help="create a tendermint node at node postion and starts it siliently")
+                        help="create a tendermint node at location '--home node' \
+                        and start silient, use for testing. \
+                        --consensus.create_empty_blocks=false is set by default.")
 
     args = parser.parse_args()
 
@@ -54,13 +58,13 @@ if __name__ == '__main__':
         start()
 
     else:
-        logger.info("Remove old nodes and starting new")
-        subprocess.run("rm -rf node", shell= True, check= True)
+        logger.info("Remove old nodes and start new")
+        subprocess.run("rm -rf node", shell=True, check=True)
 
         logger.info("init and run tendermint node")
-        subprocess.run("tendermint init --home node", shell= True, check= True)
-        subprocess.Popen("tendermint node --home node --consensus.create_empty_blocks=false", shell= True)
-        
+        subprocess.run("tendermint init --home node", shell=True, check=True)
+        subprocess.Popen(
+            "tendermint node --home node --consensus.create_empty_blocks=false",
+            shell=True)
+
         start()
-
-
