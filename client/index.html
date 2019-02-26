@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="">
+  <meta https-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="twitter:image:height" content="141">
+  <title> Vimana </title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
+  <link href="css/bulma.css" rel="stylesheet" />
+  <link href= "css/test.css"  rel="stylesheet" />
+  <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/index.js" ></script>
+<body>
+    <section class="hero is-white is-bold is-small ">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container is-fluid ">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="/">
+                            <strong>
+                              <i class="em em-small_airplane"></i> Vimana <span class="tag is-rounded is-primary is-small">Alpha</span></strong>
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+                            <span> </span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">
+                   Trustless AI Admin
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+            <div class="columns">
+                    <div class="column is-2">
+                <aside class="menu">
+                     <div class="file has-name is-boxed">
+                                        <label class="file-label">
+                                          <input class="file-input"  id="fileOutput" type="file" name="trainImage">
+                                          <span class="file-cta">
+                                            <span class="file-icon">
+                                              <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                              Choose a file as input
+                                            </span>
+                                          </span>
+                                          
+                                        </label>
+                                      </div>
+                           
+                            <br>
+                            <a class="button is-success is-large is-fullwidth" id="commit">Commit</a>
+                            <br>
+                            
+                            <a class="button is-dark is-large is-fullwidth" id="test">Test</a>
+                            <br>
+                            
+                            <a class="button is-info is-large is-fullwidth" id="query">Query</a>
+                          
+                        </ul>
+                    
+                      </aside>
+        </div>
+        <div class="column is-7">
+              <h1 class="title has-text-centered">Results</h1>
+              <hr>
+    
+              <h2 class="">
+                <div class="is-size-6" id="result"></div>
+              </h2>
+        </div>
+    </section>
+</body>
+</html>

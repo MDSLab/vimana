@@ -222,6 +222,7 @@ def commit(request):
 
     transaction = {
         'method': 'query',
+        'model': 'mnist.h5',
         'input': input_value
     }
 
@@ -229,7 +230,7 @@ def commit(request):
     # https://stackoverflow.com/questions/26646362/numpy-array-is-not-json-serializable
     transaction = json.dumps(transaction, cls=NumpyEncoder)
 
-    result = write_transaction(transaction, 'broadcast_tx_sync')
+    result = write_transaction(transaction, 'broadcast_tx_commit')
 
     return HttpResponse(result)
 
