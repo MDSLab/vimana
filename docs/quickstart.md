@@ -42,19 +42,14 @@ pip3 -r req.txt
 
 ### Local Node
 
-Start tendermint with a simple in-process application
-
-``` bash
-tendermint init --home ".node"
-
-tendermint node --home ".node"
-```
 
 Start the Vimana Server
 
 ```bash
-python3 tmserver/start.py
+python3 vimana/start.py --tm
 ```
+
+`--tm` flag runs a tendermint node for you
 
 You should be able to send requests to rendermint now. Send curl requests to `25556`
 

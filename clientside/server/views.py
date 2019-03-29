@@ -114,7 +114,7 @@ def post_transaction(transaction, mode):
 
     tx_dict = transaction
 
-    tendermint_host = 'localhost'
+    tendermint_host = '35.246.69.140'
     tendermint_port = 26657
     endpoint = 'http://{}:{}/'.format(tendermint_host, tendermint_port)
 

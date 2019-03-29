@@ -83,7 +83,7 @@ Tendermint sends a lot of blank nodes to remove this issue you can use create_em
 Start the Vimana Server
 
 ```bash
-python3 tmserver/start.py
+python3 vimana/start.py
 ```
 
 [![asciicast](https://asciinema.org/a/DAO2t73j6WHdDmZm8r9ZbekO1.svg)](https://asciinema.org/a/DAO2t73j6WHdDmZm8r9ZbekO1)
