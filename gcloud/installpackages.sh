@@ -1,6 +1,6 @@
 # written in bash
 
-declare -a instances=("instance1" "instance2" "instance3" "instance4")
+declare -a instances=("instance5" "instance6" )
 
 declare RESULT=$(bash create.sh)
 

@@ -1,1 +1,1 @@
-The Ip are creating instance at europe-west2-c us-east1-b asia-northeast1-b australia-southeast1-b Instance Created
+The Ip are creating instance at europe-west6-a asia-south1-c asia-northeast1-b australia-southeast1-b Instance Created

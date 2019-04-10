@@ -62,6 +62,14 @@ pip3 -r req.txt
 
 ### Local Node single node
 
+```bash
+python3 vimana/start.py --tm
+```
+
+`--tm` flag is equivalent to the setup of running tendermint on another node.
+
+#### OR
+
 Start tendermint with a simple in-process application
 
 ``` bash
