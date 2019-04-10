@@ -1,4 +1,4 @@
-from random import Random
+import random
 from locust import HttpLocust, TaskSet, task
 import numpy as np
 import requests
@@ -35,20 +35,21 @@ def encode_transaction(value):
 
     return base64.b64encode(json.dumps(value).encode('utf8')).decode('utf8')
 
+
 class UserBehavior(TaskSet):
 
+
     def on_start(self):
+        self.val = random.randint(1,1000000000)
         pass
 
 
     @task(1)
     def profile(self):
 
-        transaction = {
-            '1=2'
-        }
 
-        tx_dict = json.dumps(transaction)
+        tx_dict = json.dumps(str(self.val) + '=' + str(self.val) )
+        self.val+=1
 
         endpoint =''
 
