@@ -1,0 +1,3 @@
+"Method","Name","# requests","# failures","Median response time","Average response time","Min response time","Max response time","Average Content Size","Requests/s"
+"POST","/",18262,0,6400,6796,26,12318,252,77.02
+"None","Total",18262,0,6400,6796,26,12318,252,77.02
